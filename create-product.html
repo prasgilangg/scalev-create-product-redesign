@@ -460,6 +460,11 @@
   .rte-btn:hover{background:var(--icon-muted-bg);}
   .rte-sep{width:1px;height:16px;background:var(--border);margin:0 4px;flex-shrink:0;}
   .rte-textarea{border-top:none !important;border-radius:0 0 8px 8px !important;}
+  .rte-dropdown{
+    display:flex;align-items:center;gap:4px;background:none;border:none;height:26px;padding:0 6px;
+    border-radius:5px;color:var(--text);cursor:pointer;font-size:12.5px;font-family:var(--font-body);white-space:nowrap;
+  }
+  .rte-dropdown:hover{background:var(--icon-muted-bg);}
 
   .duration-row{display:flex;gap:10px;}
   .duration-row input{flex:1;}
@@ -690,7 +695,8 @@
       </div>
       <div class="field">
         <label>Description</label>
-        <textarea placeholder="Write product description..."></textarea>
+        <div id="rteToolbarBasicDesc"></div>
+        <textarea class="rte-textarea" placeholder="Write product description..."></textarea>
       </div>
       <div class="field">
         <label>Short Description</label>
@@ -1433,23 +1439,44 @@ function removeValue(id, val){
 function rteToolbarHTML(){
   return `
     <div class="rte-toolbar">
-      <button type="button" class="rte-btn">↺</button>
-      <button type="button" class="rte-btn">↻</button>
+      <button type="button" class="rte-btn" title="Undo">↺</button>
+      <button type="button" class="rte-btn" title="Redo">↻</button>
       <span class="rte-sep"></span>
-      <button type="button" class="rte-btn" style="font-weight:700">B</button>
-      <button type="button" class="rte-btn" style="font-style:italic">I</button>
-      <button type="button" class="rte-btn" style="text-decoration:underline">U</button>
-      <button type="button" class="rte-btn" style="text-decoration:line-through">S</button>
+      <button type="button" class="rte-dropdown" title="Text style">Normal text
+        <svg width="10" height="10" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
       <span class="rte-sep"></span>
-      <button type="button" class="rte-btn">
-        <svg width="13" height="13" viewBox="0 0 20 20" fill="none"><path d="M3 5h14M3 10h14M3 15h9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <button type="button" class="rte-dropdown" title="Alignment">
+        <svg width="14" height="14" viewBox="0 0 20 20" fill="none"><path d="M3 5h14M3 10h10M3 15h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <svg width="10" height="10" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
-      <button type="button" class="rte-btn">
-        <svg width="13" height="13" viewBox="0 0 20 20" fill="none"><path d="M8.5 11.5l3-3M7 13.5l-1.5 1.5a2.5 2.5 0 01-3.5-3.5L4 9.5M13 6.5l1.5-1.5a2.5 2.5 0 013.5 3.5L16.5 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="rte-sep"></span>
+      <button type="button" class="rte-btn" style="font-weight:700" title="Bold">B</button>
+      <button type="button" class="rte-btn" style="font-style:italic" title="Italic">I</button>
+      <button type="button" class="rte-btn" style="text-decoration:underline" title="Underline">U</button>
+      <button type="button" class="rte-btn" style="text-decoration:line-through" title="Strikethrough">S</button>
+      <button type="button" class="rte-btn" title="Inline code">&lt;&gt;</button>
+      <button type="button" class="rte-btn" title="Clear formatting">
+        <svg width="14" height="14" viewBox="0 0 20 20" fill="none"><path d="M4 12l6-6 6 6-4 4H8l-4-4z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M3 17h14" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
       </button>
-      <button type="button" class="rte-btn">
-        <svg width="13" height="13" viewBox="0 0 20 20" fill="none"><rect x="2.5" y="4" width="15" height="12" rx="1.5" stroke="currentColor" stroke-width="1.4"/><circle cx="6.5" cy="8" r="1.2" stroke="currentColor" stroke-width="1.2"/><path d="M4 14l3.5-3.5L10 13l3-3.5 3 3" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+      <span class="rte-sep"></span>
+      <button type="button" class="rte-btn" title="Bullet list">
+        <svg width="14" height="14" viewBox="0 0 20 20" fill="none"><circle cx="3" cy="5" r="1.2" fill="currentColor"/><circle cx="3" cy="10" r="1.2" fill="currentColor"/><circle cx="3" cy="15" r="1.2" fill="currentColor"/><path d="M7 5h10M7 10h10M7 15h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
       </button>
+      <button type="button" class="rte-btn" title="Numbered list">
+        <svg width="14" height="14" viewBox="0 0 20 20" fill="none"><text x="0.5" y="7" font-size="5.5" fill="currentColor">1</text><text x="0.5" y="12.5" font-size="5.5" fill="currentColor">2</text><path d="M7 5h10M7 10h10M7 15h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+      <span class="rte-sep"></span>
+      <button type="button" class="rte-btn" title="Insert link">
+        <svg width="14" height="14" viewBox="0 0 20 20" fill="none"><path d="M8.5 11.5l3-3M7 13.5l-1.5 1.5a2.5 2.5 0 01-3.5-3.5L4 9.5M13 6.5l1.5-1.5a2.5 2.5 0 013.5 3.5L16.5 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button type="button" class="rte-btn" title="Insert image">
+        <svg width="14" height="14" viewBox="0 0 20 20" fill="none"><rect x="2.5" y="4" width="15" height="12" rx="1.5" stroke="currentColor" stroke-width="1.4"/><circle cx="6.5" cy="8" r="1.2" stroke="currentColor" stroke-width="1.2"/><path d="M4 14l3.5-3.5L10 13l3-3.5 3 3" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+      </button>
+      <button type="button" class="rte-btn" title="Code block">&lt;/&gt;</button>
+      <button type="button" class="rte-btn" style="font-weight:700;font-size:15px" title="Quote">"</button>
+      <span class="rte-sep"></span>
+      <button type="button" class="rte-btn" title="Horizontal rule">—</button>
     </div>
   `;
 }
@@ -1656,7 +1683,10 @@ function renderVariants(){
         </div>
         <div class="vfield-section">
           <div class="vsection-label">Variant Description</div>
-          <div class="field"><textarea placeholder="Write a description specific to this variant..."></textarea></div>
+          <div class="field">
+            ${rteToolbarHTML()}
+            <textarea class="rte-textarea" placeholder="Write a description specific to this variant..."></textarea>
+          </div>
           <div class="field"><textarea style="min-height:50px" placeholder="Short variant description..."></textarea></div>
         </div>
         <div class="vfield-section">
@@ -1943,6 +1973,7 @@ renderWarehouseChips();
 syncSingleMultiVisibility();
 updateStoreCount();
 updateSummary();
+document.getElementById('rteToolbarBasicDesc').innerHTML = rteToolbarHTML();
 </script>
 
 </body>
