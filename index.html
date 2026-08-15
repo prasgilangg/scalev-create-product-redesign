@@ -144,6 +144,15 @@
   }
   .filter-btn:hover{border-color:#c9cedb;}
 
+  /* Mobile: perkecil search bar biar tombol filter tetap terlihat, tidak kehide */
+  @media (max-width:480px){
+    .search-input-wrap{min-width:0;max-width:none;}
+    .search-input-wrap input{padding:0 10px 0 36px;font-size:13px;}
+    .search-input-wrap svg{left:12px;width:14px;height:14px;}
+    .filter-btn{width:40px;height:40px;flex-shrink:0;}
+    .toolbar-left{gap:8px;}
+  }
+
   /* ===== EMPTY STATE ===== */
   .empty-state-wrap{
     display:flex;flex-direction:column;align-items:center;justify-content:center;
