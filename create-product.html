@@ -1507,23 +1507,15 @@ function renderVariants(){
 
   const newVariants = combos.map((combo, idx)=>{
     const key = combo.join('/');
-    if(existingByKey[key]) return existingByKey[key];
+    if(existingByKey[key]) return existingByKey[key]; // varian existing: pertahankan status expanded manual dari user apa adanya
     return {
-      key, name:key, price:'', sku:'', expanded:false, isNew:true,
+      // varian baru: default hanya terbuka kalau dia berada di posisi PALING ATAS (index 0) pada list saat ini.
+      // Varian baru lain di posisi bawah tetap tertutup, walau baru saja ditambahkan — tetap bisa dibuka manual oleh user.
+      key, name:key, price:'', sku:'', expanded: idx===0, isNew:true,
       benefitFiles:true, benefitLms:false, accessType:'permanent',
       uploadedFiles:[], fileUrls:[]
     };
   });
-
-  // mark previous "new" as not new, keep only the very latest addition expanded
-  const prevKeys = state.variants.map(v=>v.key);
-  newVariants.forEach(v=>{
-    if(!prevKeys.includes(v.key)) v.isNew = true; else v.isNew = false;
-  });
-  // collapse all except the newest-added one (varian existing mempertahankan expanded state manual dari user)
-  const freshOnes = newVariants.filter(v=>v.isNew);
-  if(freshOnes.length) freshOnes[freshOnes.length-1].expanded = true;
-  else if(newVariants.length && state.variants.length===0) newVariants[0].expanded = true;
 
   state.variants = newVariants;
 
